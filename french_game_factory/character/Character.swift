@@ -14,8 +14,6 @@ protocol Character {
     var healthPoints: Int { get set }
 
     var weapon: Weapon { get }
-    
-    func toString() -> String
 
     func takeDamage(damage: Int)
 

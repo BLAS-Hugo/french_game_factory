@@ -26,8 +26,4 @@ public class Dwarf: Character {
     func heal(pointsToHeal: Int) {
         healthPoints += pointsToHeal
     }
-
-    func toString() -> String {
-        return "Instance of Dwarf : name: \(name) / HP: \(healthPoints)"
-    }
 }

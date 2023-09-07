@@ -26,8 +26,4 @@ public class Magus: Character {
     func heal(pointsToHeal: Int) {
         healthPoints += pointsToHeal
     }
-
-    func toString() -> String {
-        return "Instance of Magus : name: \(name) / HP: \(healthPoints)"
-    }
 }
