@@ -8,14 +8,26 @@
 import Foundation
 
 public class Player{
-    var characters: [Character]
+    var characters: [Character] = []
 
-    init(characters: [Character]) {
-        self.characters = characters
+    init() {}
+
+    func addCharacter(character: Character) {
+        characters.append(character)
     }
 
-    // Returns the charadter at the specified index from the characters list
-    // If the index is not valid, the user is notified and asked to give another number
+    var numberOfAliveCharacters: Int {
+        var numberOfAliveCharacters: Int = 0
+        for char in characters {
+            if char.healthPoints > 0 {
+                numberOfAliveCharacters += 1
+            }
+        }
+        return numberOfAliveCharacters
+    }
+
+    /// Returns the `character` at the specified index from the `characters` list
+    /// If the index is not valid, the user is notified and asked to give another number
     func chooseCharacter(index: Int) -> Character? {
         if index < characters.count && index > 0 {
             return characters[index]

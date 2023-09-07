@@ -11,27 +11,33 @@ class Weapon {
 
     let weaponType: WeaponType
 
-    let damage: Int
-
-    let heal: Int
-
     init(weaponType: WeaponType) {
         self.weaponType = weaponType
-        switch self.weaponType {
-            case WeaponType.sword:
-                damage = 10
-                heal = 0
-            case WeaponType.axe:
-                damage = 20
-                heal = 0
-            case WeaponType.staff:
-                damage = 5
-                heal = 10
-        }
     }
-
 }
 
 enum WeaponType {
     case sword, axe, staff
+
+    var damage: Int {
+        switch self {
+        case .sword:
+            return 10
+        case .axe:
+            return 20
+        case .staff:
+            return 5
+        }
+    }
+
+    var heal: Int {
+        switch self {
+        case .sword:
+            return 0
+        case .axe:
+            return 0
+        case .staff:
+            return 10
+        }
+    }
 }
