@@ -7,12 +7,9 @@
 
 import Foundation
 
-let player1: Player = Player()
-let player2: Player = Player()
+let game: Game = Game()
 
-let game: Game = Game(players: [player1, player2])
-
-game.initGame()
+game.initGame(numberOfCharacters: 3)
 
 while game.players[0].numberOfAliveCharacters > 0 || game.players[1].numberOfAliveCharacters > 0 {
     // We can play

@@ -19,3 +19,9 @@ protocol Character {
 
     func heal(pointsToHeal: Int)
 }
+
+enum CharacterType {
+    case warrior, dwarf, magus;
+
+    static let characterTypes: [CharacterType] = [CharacterType.warrior, CharacterType.dwarf, CharacterType.magus]
+}

@@ -9,13 +9,11 @@ import Foundation
 
 class Game {
 
-    var players: [Player]
+    var players: [Player] = [Player(), Player()]
 
     var rounds: Int = 0
 
-    init(players: [Player]) {
-        self.players = players
-    }
+    init() { }
 
     /// Play a round of the game
     func playRound() {
@@ -35,7 +33,6 @@ class Game {
     /// Returns a `Character` selected by `player`
     func selectCharacter(player: Player) -> Character {
         print("Choose a character")
-
         let index: String? = readLine()
         if let unwrapped = index {
             let character: Character? = player.chooseCharacter(index: ((Int(unwrapped) ?? 100) - 1))
@@ -52,14 +49,14 @@ class Game {
         }
     }
 
-    func initGame() {
+    func initGame(numberOfCharacters: Int) {
         print("""
         Welcome in our new game !
         We are starting now !
         Please select your characters
         """)
         for player in players {
-            while player.characters.count < 3 {
+            while player.characters.count < numberOfCharacters {
                 print("What type of character do you want to choose ?");
                 print("""
                     Warrior: 1
@@ -68,23 +65,24 @@ class Game {
                     """);
                 let index: String? = readLine()
                 if let unwrappedIndex = index {
+                    let index: Int = Int(unwrappedIndex) ?? 4
+                    if index > 3 {
+                        print("Entry not valid");
+                        continue
+                    }
                     print("Enter your new characters name: ")
                     let name: String? = readLine()
                     if let unwrappedName = name {
                         let character: Character;
-                        switch unwrappedIndex {
-                        case "1":
+                        switch CharacterType.characterTypes[index-1] {
+                        case CharacterType.warrior:
                             character = Warrior(name: unwrappedName)
-                            break
-                        case "2":
+
+                        case CharacterType.dwarf:
                             character = Dwarf(name: unwrappedName)
-                            break
-                        case "3":
+
+                        case CharacterType.magus:
                             character = Magus(name: unwrappedName)
-                            break
-                        default:
-                            print("Entry not valid");
-                            continue
                         }
                         player.addCharacter(character: character)
                     }
