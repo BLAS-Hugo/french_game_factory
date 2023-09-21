@@ -9,8 +9,13 @@ import Foundation
 
 public class Player{
     var characters: [Character] = []
+    let uuid: String
+    let name: String
 
-    init() {}
+    init(name: String) {
+        uuid = UUID().uuidString
+        self.name = name
+    }
 
     func addCharacter(character: Character) {
         characters.append(character)
@@ -29,7 +34,7 @@ public class Player{
     /// Returns the `character` at the specified index from the `characters` list
     /// If the index is not valid, the user is notified and asked to give another number
     func chooseCharacter(index: Int) -> Character? {
-        if index < characters.count && index > 0 {
+        if index < characters.count && index >= 0 {
             return characters[index]
         }
         return nil
