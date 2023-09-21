@@ -11,6 +11,14 @@ class Weapon {
 
     let weaponType: WeaponType
 
+    var damage: Int {
+        return weaponType.damage
+    }
+
+    var heal: Int {
+        return weaponType.heal
+    }
+
     init(weaponType: WeaponType) {
         self.weaponType = weaponType
     }
