@@ -11,17 +11,37 @@ protocol Character {
 
     var name: String { get set }
 
+    var type: CharacterType { get }
+
     var healthPoints: Int { get set }
 
     var weapon: Weapon { get }
 
-    func takeDamage(damage: Int)
+}
 
-    func heal(pointsToHeal: Int)
+extension Character  {
+    mutating func takeDamage(damage: Int) {
+        healthPoints -= damage
+    }
+
+    mutating func heal(pointsToHeal: Int) {
+        healthPoints += pointsToHeal
+    }
 }
 
 enum CharacterType {
     case warrior, dwarf, magus;
 
     static let characterTypes: [CharacterType] = [CharacterType.warrior, CharacterType.dwarf, CharacterType.magus]
+
+    var string: String {
+        switch self {
+        case .warrior:
+            return "Warrior"
+        case .dwarf:
+            return "Dwarf"
+        case .magus:
+            return "Magus"
+        }
+    }
 }

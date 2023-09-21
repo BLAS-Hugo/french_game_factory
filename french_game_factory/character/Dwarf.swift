@@ -12,11 +12,13 @@ public class Dwarf: Character {
     var name: String
     var healthPoints: Int
     var weapon: Weapon
+    var type: CharacterType
 
     init(name: String) {
         self.name = name
         healthPoints = 50
         weapon = Weapon(weaponType: WeaponType.axe)
+        type = CharacterType.dwarf
     }
 
     func takeDamage(damage: Int) {

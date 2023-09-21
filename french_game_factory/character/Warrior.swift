@@ -12,18 +12,12 @@ public class Warrior: Character {
     var name: String
     var healthPoints: Int
     var weapon: Weapon
+    var type: CharacterType
 
     init(name: String) {
         self.name = name
         healthPoints = 100
         weapon = Weapon(weaponType: WeaponType.sword)
-    }
-
-    func takeDamage(damage: Int) {
-        healthPoints -= damage
-    }
-
-    func heal(pointsToHeal: Int) {
-        healthPoints += pointsToHeal
+        type = CharacterType.warrior
     }
 }

@@ -12,11 +12,13 @@ public class Magus: Character {
     var name: String
     var healthPoints: Int
     var weapon: Weapon
+    var type: CharacterType
 
     init(name: String) {
         self.name = name
         healthPoints = 50
         weapon = Weapon(weaponType: WeaponType.staff)
+        type = CharacterType.magus
     }
 
     func takeDamage(damage: Int) {
