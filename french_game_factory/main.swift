@@ -7,13 +7,47 @@
 
 import Foundation
 
-let game: Game = Game()
+print("""
+Welcome in our new game !
+We are starting now !
 
-game.initGame(numberOfCharacters: 3)
+Please enter the number of players
+""")
 
-while game.players[0].numberOfAliveCharacters > 0 || game.players[1].numberOfAliveCharacters > 0 {
+var numberOfPlayer: Int = 0
+
+while numberOfPlayer == 0 {
+    if let numberOfPlayers = Int(readLine() ?? "") {
+        numberOfPlayer = numberOfPlayers
+        break
+    }
+    print("Please enter a number over 0")
+    continue
+}
+
+print("Enter the number of characters per player")
+
+var numberOfCharacter: Int = 0
+
+while numberOfCharacter == 0 {
+    if let numberOfCharacters = Int(readLine() ?? "") {
+        numberOfCharacter = numberOfCharacters
+        break
+    }
+    print("Please enter a number over 0")
+    continue
+}
+
+let game: Game = Game(numberOfPlayers: numberOfPlayer, numberOfCharacters: numberOfCharacter)
+
+while game.shouldContinuePlaying {
     // We can play
     game.playRound()
 }
 
 // END GAME
+print("""
+WE HAVE A WINNER !
+Congrats \(game.lastPlayerAlive!.name)
+You Win !
+""")
