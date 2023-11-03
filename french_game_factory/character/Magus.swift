@@ -20,12 +20,4 @@ public class Magus: Character {
         weapon = Weapon(weaponType: WeaponType.staff)
         type = CharacterType.magus
     }
-
-    func takeDamage(damage: Int) {
-        healthPoints -= damage
-    }
-
-    func heal(pointsToHeal: Int) {
-        healthPoints += pointsToHeal
-    }
 }

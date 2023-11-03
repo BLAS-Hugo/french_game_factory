@@ -9,7 +9,7 @@ import Foundation
 
 class Weapon {
 
-    let weaponType: WeaponType
+    private let weaponType: WeaponType
 
     var damage: Int {
         return weaponType.damage

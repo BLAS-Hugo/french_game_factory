@@ -17,14 +17,15 @@ public class Player{
         self.name = name
     }
 
-    func addCharacter(character: Character) {
+    func addCharacter(character: Character) -> Void {
         characters.append(character)
     }
 
+    /// Returs the number of character who have more than 0 healthPoints
     var numberOfAliveCharacters: Int {
         var numberOfAliveCharacters: Int = 0
         for char in characters {
-            if char.healthPoints > 0 {
+            if char.healthPoints >= 0 {
                 numberOfAliveCharacters += 1
             }
         }

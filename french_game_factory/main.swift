@@ -19,10 +19,9 @@ var numberOfPlayer: Int = 0
 while numberOfPlayer == 0 {
     if let numberOfPlayers = Int(readLine() ?? "") {
         numberOfPlayer = numberOfPlayers
-        break
+    } else {
+        print("Please enter a number over 0")
     }
-    print("Please enter a number over 0")
-    continue
 }
 
 print("Enter the number of characters per player")
@@ -32,20 +31,20 @@ var numberOfCharacter: Int = 0
 while numberOfCharacter == 0 {
     if let numberOfCharacters = Int(readLine() ?? "") {
         numberOfCharacter = numberOfCharacters
-        break
+    } else {
+        print("Please enter a number over 0")
     }
-    print("Please enter a number over 0")
-    continue
 }
 
+// Game initialization with the parameter entered by the user
 let game: Game = Game(numberOfPlayers: numberOfPlayer, numberOfCharacters: numberOfCharacter)
 
 while game.shouldContinuePlaying {
-    // We can play
+    // While multiple players have alive characters we can play
     game.playRound()
 }
 
-// END GAME
+// Once there is only 1 player with a character thats alive we display the end game message
 print("""
 WE HAVE A WINNER !
 Congrats \(game.lastPlayerAlive!.name)

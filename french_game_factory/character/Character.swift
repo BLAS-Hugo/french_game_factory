@@ -20,8 +20,16 @@ protocol Character {
 }
 
 extension Character  {
+
     mutating func takeDamage(damage: Int) {
         healthPoints -= damage
+        if healthPoints <= 0 {
+            print("""
+
+                \(name) has 0 HP, he died
+                
+                """)
+        }
     }
 
     mutating func heal(pointsToHeal: Int) {

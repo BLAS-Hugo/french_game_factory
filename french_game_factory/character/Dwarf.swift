@@ -20,12 +20,4 @@ public class Dwarf: Character {
         weapon = Weapon(weaponType: WeaponType.axe)
         type = CharacterType.dwarf
     }
-
-    func takeDamage(damage: Int) {
-        healthPoints -= damage
-    }
-
-    func heal(pointsToHeal: Int) {
-        healthPoints += pointsToHeal
-    }
 }

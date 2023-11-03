@@ -9,15 +9,16 @@ import Foundation
 
 class Game {
 
-    var players: [Player] = []
+    private var players: [Player] = []
 
-    var rounds: Int = 0
+    private var rounds: Int = 0
 
     init(numberOfPlayers: Int, numberOfCharacters: Int) {
         initGame(numberOfCharacters: numberOfCharacters, numberOfPlayers: numberOfPlayers)
     }
 
-    fileprivate func doAction(index: Int, otherPlayer: Player,  character: Character, player: Player) {
+    /// The player can select the character to execute the action on and then do the specified action
+    private func doAction(index: Int, otherPlayer: Player,  character: Character, player: Player) -> Void {
         let isHeal: Bool = index == 2 && character is Magus
         if index == 1 {
             // If selected action is attack, display other player characters
@@ -25,34 +26,65 @@ class Game {
             var i = 0
             while (i < otherPlayer.characters.count) {
                 let char: Character = otherPlayer.characters[i]
-                print("\(char.name), \(char.type.string), \(char.healthPoints)HP : \(i+1)")
+                var hp: Int = char.healthPoints
+                if hp < 0 {
+                    hp = 0
+                }
+                print("\(char.name), \(char.type.string), \(hp)HP : \(i+1)")
                 i += 1
             }
         } else if isHeal {
             // If selected action is heal, display current player characters
             print("Select which character you want to heal")
             var i = 0
-            while (i < otherPlayer.characters.count) {
+            while (i < player.characters.count) {
                 let char: Character = player.characters[i]
-                print("\(char.name), \(char.type.string), \(char.healthPoints)HP : \(i+1)")
+                var hp: Int = char.healthPoints
+                if hp < 0 {
+                    hp = 0
+                }
+                print("\(char.name), \(char.type.string), \(hp)HP : \(i+1)")
                 i += 1
             }
         }
 
         if let selectedChar = Int(readLine() ?? "") {
             if isHeal {
+                if player.characters[selectedChar-1].healthPoints <= 0 {
+                    print("""
+
+                This character is already dead
+
+                """)
+                    doAction(index: index, otherPlayer: otherPlayer,  character: character, player: player)
+                    return
+                }
                 player.characters[selectedChar-1].heal(pointsToHeal: character.weapon.heal)
                 print("\(character.name) healed \(player.characters[selectedChar-1].name) of \(character.weapon.heal) HP")
                 return
             }
+            if otherPlayer.characters[selectedChar-1].healthPoints <= 0 {
+                print("""
+
+            This character is already dead
+
+            """)
+                doAction(index: index, otherPlayer: otherPlayer,  character: character, player: player)
+                return
+            }
             otherPlayer.characters[selectedChar-1].takeDamage(damage: character.weapon.damage)
             print("\(character.name) attacked \(otherPlayer.characters[selectedChar-1].name) and take out \(character.weapon.damage) HP")
-            return ;
+            return
         }
     }
 
     /// Play a round of the game
-    func playRound() {
+    /// Loops through the players array and make the player select the character they want to use,
+    /// the action they want to execute,
+    /// the player they want to attack
+    /// Then this fucntion calls the doAction function
+    /// And displays the state of the game
+    func playRound() -> Void {
         rounds += 1
         // loop through players
         var i: Int = 0
@@ -72,25 +104,24 @@ class Game {
                 print("Heal: 2")
             }
             if let index = Int(readLine() ?? "") {
-                print("Choose a player")
-                var i: Int = 1
-                for player in otherPlayers {
-                    print("\(i): \(player.name)")
+                if index == 2 {
+                    doAction(index: index, otherPlayer: player, character: character, player: player)
                     i += 1
-                }
-                if let otherPlayerIndex = Int(readLine() ?? "") {
-                    if otherPlayerIndex - 1 >= 0 && otherPlayerIndex - 1 < otherPlayers.count {
-                        doAction(index: index, otherPlayer: otherPlayers[otherPlayerIndex - 1], character: character, player: player)
-                    } else {
-                        continue
-                    }
                 } else {
-                    continue
+                    print("Choose a player")
+                    var j: Int = 1
+                    for player in otherPlayers {
+                        print("\(j): \(player.name)")
+                        j += 1
+                    }
+                    if let otherPlayerIndex = Int(readLine() ?? "") {
+                        if otherPlayerIndex - 1 >= 0 && otherPlayerIndex - 1 < otherPlayers.count {
+                            doAction(index: index, otherPlayer: otherPlayers[otherPlayerIndex - 1], character: character, player: player)
+                            i += 1
+                        }
+                    }
                 }
-            } else {
-                continue
             }
-            i += 1
         }
 
         // Display current battle state
@@ -101,29 +132,49 @@ class Game {
             var i = 0
             while (i < player.characters.count) {
                 let char: Character = player.characters[i]
-                playersChar.append("\(char.name), \(char.type.string), \(char.healthPoints)HP : \(i+1)")
+                var hp: Int = char.healthPoints
+                if hp < 0 {
+                    hp = 0
+                }
+                playersChar.append("\(char.name), \(char.type.string), \(hp)HP : \(i+1)")
                 i += 1
             }
         }
 
         print("""
+
             End of round n°\(rounds)
 
-            \(playersChar)
             """)
+        for player in playersChar {
+            print(player)
+        }
     }
 
     /// Returns a `Character` selected by `player`
-    fileprivate func selectCharacter(player: Player) -> Character {
-        print("Choose a character")
+    private func selectCharacter(player: Player) -> Character {
+        print("""
+
+            Choose a character
+
+            """)
+
         var i: Int = 1
         for char in player.characters {
-            print("\(i): \(char.name) / HP: \(char.healthPoints)")
+            var hp: Int = char.healthPoints
+            if hp < 0 {
+                hp = 0
+            }
+            print("\(i): \(char.name) / HP: \(hp)")
             i += 1
         }
         if let index = Int(readLine() ?? ""){
             let character: Character? = player.chooseCharacter(index: index - 1)
             if let char = character {
+                if char.healthPoints <= 0 {
+                    print("This character has 0 HP, he is not able to fight anymore")
+                    return selectCharacter(player: player)
+                }
                 return char
             }
         }
@@ -131,69 +182,94 @@ class Game {
         return selectCharacter(player: player)
     }
 
-    fileprivate func initPlayers(numberOfPlayers: Int) -> Void {
+    /// Initialize the players array
+    /// While the number of players specified in parameters are not added
+    /// It creates a new Player with the name specified by the user
+    private func initPlayers(numberOfPlayers: Int) -> Void {
         while players.count < numberOfPlayers {
             print("""
+
             Player \(players.count + 1)
             Please type your name.
             """)
             if let name = readLine() {
-                print("Player \(players.count + 1): \(name)")
+                print("""
+                Player \(players.count + 1): \(name)
+
+                """)
                 players.append(Player(name: name))
             }
         }
     }
 
-    fileprivate func initGame(numberOfCharacters: Int, numberOfPlayers: Int) {
+    /// Calls the initPlayers function to initialize the players array
+    /// Then  add new character for each player until the specified number is reached
+    /// Then start the game
+    private func initGame(numberOfCharacters: Int, numberOfPlayers: Int) -> Void {
         initPlayers(numberOfPlayers: numberOfPlayers)
         for player in players {
-            print("\(player.name) choose your characters: ")
+            print("""
+
+                \(player.name) choose your characters:
+
+                """)
             while player.characters.count < numberOfCharacters {
                 print("What type of character do you want to choose ?");
                 print("""
                     Warrior: 1
                     Dwarf: 2
                     Magus: 3
+
                     """);
-                let index: String? = readLine()
-                if let unwrappedIndex = index {
-                    let index: Int = Int(unwrappedIndex) ?? 4
+                if let index = Int(readLine() ?? "") {
                     if index > 3 {
                         print("Entry not valid");
                         continue
                     }
                     print("Enter your new characters name: ")
-                    let name: String? = readLine()
-                    if let unwrappedName = name {
+
+                    if let name = readLine() {
+                        if CharacterManager.contains(name) {
+                            print("This character name already exists, please enter a different one")
+                            continue
+                        }
                         let character: Character;
                         switch CharacterType.characterTypes[index-1] {
                         case CharacterType.warrior:
-                            character = Warrior(name: unwrappedName)
+                            character = Warrior(name: name)
 
                         case CharacterType.dwarf:
-                            character = Dwarf(name: unwrappedName)
+                            character = Dwarf(name: name)
 
                         case CharacterType.magus:
-                            character = Magus(name: unwrappedName)
+                            character = Magus(name: name)
                         }
                         player.addCharacter(character: character)
+                        CharacterManager.characterNames.append(name)
                     }
+                } else {
+                    print("Entry not valid");
+                    continue
                 }
             }
         }
-        print("Game is now starting !")
-        print("First round !")
+        print("""
+
+        Game is now starting !
+        """)
+        print("""
+        First round !
+
+        """)
     }
 
+    /// Returns True if at least 2 players have a character alive
     var shouldContinuePlaying: Bool {
-        for player in players {
-            if player.numberOfAliveCharacters == 0 {
-                return false
-            }
-        }
-        return true
+        let playersInGame: [Player] = players.filter { $0.numberOfAliveCharacters > 0 }
+        return playersInGame.count > 1
     }
 
+    /// Returns the last player with at least 1 character alive
     var lastPlayerAlive: Player? {
         for player in players {
             if player.numberOfAliveCharacters != 0 {

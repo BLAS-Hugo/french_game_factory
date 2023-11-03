@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+class CharacterManager {
+    static var characterNames: [String] = []
+
+    static func contains(_ other: String) -> Bool {
+        return characterNames.contains(other)
+    }
+}

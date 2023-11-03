@@ -15,6 +15,7 @@
 		9A1B47FF2A98A33800774365 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B47FE2A98A33800774365 /* Player.swift */; };
 		9A1B48022A98A46500774365 /* Magus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B48012A98A46500774365 /* Magus.swift */; };
 		9A1B48052A98E3A500774365 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B48042A98E3A500774365 /* Weapon.swift */; };
+		9AF82BB62AE197D700E0B100 /* CharacterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF82BB52AE197D700E0B100 /* CharacterManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,7 @@
 		9A1B47FE2A98A33800774365 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		9A1B48012A98A46500774365 /* Magus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magus.swift; sourceTree = "<group>"; };
 		9A1B48042A98E3A500774365 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		9AF82BB52AE197D700E0B100 /* CharacterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				9A1B47F42A98A01300774365 /* Warrior.swift */,
 				9A1B47F62A98A11800774365 /* Dwarf.swift */,
 				9A1B48012A98A46500774365 /* Magus.swift */,
+				9AF82BB52AE197D700E0B100 /* CharacterManager.swift */,
 			);
 			path = character;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 				9A1B47EA2A97380400774365 /* main.swift in Sources */,
 				9A1B48022A98A46500774365 /* Magus.swift in Sources */,
 				9A1B47FF2A98A33800774365 /* Player.swift in Sources */,
+				9AF82BB62AE197D700E0B100 /* CharacterManager.swift in Sources */,
 				9A1B47F72A98A11800774365 /* Dwarf.swift in Sources */,
 				9A1B47F32A989F7200774365 /* Character.swift in Sources */,
 			);
